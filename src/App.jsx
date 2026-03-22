@@ -97,7 +97,7 @@ function App() {
       
       <div className="app-container">
         {activeView === 'dashboard' && (
-          <Dashboard onStart={handleStartProblem} isPro={isPro} />
+          <Dashboard onStart={handleStartProblem} isPro={isPro} isLoggedIn={isLoggedIn} setActiveView={setActiveView} />
         )}
         
         {activeView === 'workspace' && activeProblem && (

@@ -141,11 +141,16 @@ const PROBLEMS = [
   }
 ];
 
-export default function Dashboard({ onStart, isPro }) {
+export default function Dashboard({ onStart, isPro, isLoggedIn, setActiveView }) {
   // Navigate directly to the original working playground page.
   // This page is a 1:1 copy of the reference site and handles everything:
   // Expert View, Simulation, Drag-and-Drop, Auth, Paywall — all natively in JS.
   const goToPlayground = (p) => {
+    if (!isLoggedIn) {
+      // Intercept logged-out users trying to access locked problems immediately on Dashboard
+      setActiveView('auth');
+      return;
+    }
     window.location.href = `/playground.html?problemId=${p.id}`;
   };
 
