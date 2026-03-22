@@ -4,6 +4,7 @@ import 'firebase/compat/auth';
 
 export default function Navbar({ isLoggedIn, setActiveView, activeView }) {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     firebase.auth().signOut().then(() => {
@@ -14,23 +15,33 @@ export default function Navbar({ isLoggedIn, setActiveView, activeView }) {
     });
   };
 
+  const handleNavClick = (view) => {
+    setActiveView(view);
+    setIsMobileMenuOpen(false); // Auto-close menu on selection
+  };
+
   return (
     <>
       <nav className="nav" id="mainNav">
-        <div className="nav-brand" onClick={() => setActiveView('dashboard')}>
+        <div className="nav-brand" onClick={() => handleNavClick('dashboard')}>
           <div className="nav-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
             <img src="/logo.png" alt="SystemForge Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <span className="nav-title">SystemForge</span>
         </div>
         
-        <button className="mobile-menu-btn">☰</button>
+        <button 
+          className="mobile-menu-btn" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          ☰
+        </button>
         
-        <div className="nav-links" id="navLinks">
+        <div className={`nav-links ${isMobileMenuOpen ? 'open' : ''}`} id="navLinks">
           <a href="mailto:sysforgetool@gmail.com" className="nav-link" style={{ textDecoration: 'none' }}>Contact Us</a>
           <button 
             className={`nav-link ${activeView === 'dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveView('dashboard')}
+            onClick={() => handleNavClick('dashboard')}
           >
             Dashboard
           </button>
@@ -39,7 +50,7 @@ export default function Navbar({ isLoggedIn, setActiveView, activeView }) {
             <button 
               className="nav-link" 
               id="loginBtnNav" 
-              onClick={() => setActiveView('auth')}
+              onClick={() => handleNavClick('auth')}
             >
               Login / Sign Up
             </button>
@@ -47,7 +58,10 @@ export default function Navbar({ isLoggedIn, setActiveView, activeView }) {
             <button 
               className="nav-link" 
               id="logoutBtn" 
-              onClick={() => setShowLogoutConfirm(true)}
+              onClick={() => {
+                setShowLogoutConfirm(true);
+                setIsMobileMenuOpen(false);
+              }}
             >
               Logout
             </button>
