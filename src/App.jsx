@@ -8,16 +8,10 @@ import Dashboard from './components/Dashboard';
 import Workspace from './components/Workspace';
 import AuthModal from './components/AuthModal';
 
-// Firebase Configuration extracted from V1
-const firebaseConfig = {
-  apiKey: "AIzaSyDXb6DZsvEnXdov3I20sjaHCX1au9-qut0",
-  authDomain: "systemforge-5269d.firebaseapp.com",
-  projectId: "systemforge-5269d",
-  storageBucket: "systemforge-5269d.firebasestorage.app",
-  messagingSenderId: "1018107667228",
-  appId: "1:1018107667228:web:cbfd3550a301e6dfa450d9",
-  measurementId: "G-Q41X253W4G"
-};
+// Masked Firebase Configuration (Base64 Encoded to prevent casual scraping in React bundle)
+// In app.js, this is RC4-encrypted by javascript-obfuscator.
+const _fc = "eyJhcGlLZXkiOiJBSXphU3lEWGI2RFpzdkVuWGRvdjNJMjBzamFIQ1gxYXU5LXF1dDAiLCJhdXRoRG9tYWluIjoic3lzdGVtZm9yZ2UtNTI2OWQuZmlyZWJhc2VhcHAuY29tIiwicHJvamVjdElkIjoic3lzdGVtZm9yZ2UtNTI2OWQiLCJzdG9yYWdlQnVja2V0Ijoic3lzdGVtZm9yZ2UtNTI2OWQuZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiMTAxODEwNzY2NzIyOCIsImFwcElkIjoiMToxMDE4MTA3NjY3MjI4OndlYjpjYmZkMzU1MGEzMDFlNmRmYTQ1MGQ5IiwibWVhc3VyZW1lbnRJZCI6IkctUTQxWDI1M1c0RyJ9";
+const firebaseConfig = JSON.parse(atob(_fc));
 
 // Initialize Firebase once
 if (!firebase.apps.length) {
