@@ -765,11 +765,9 @@ body::before {
 .canvas-container {
   position: relative;
   overflow: hidden;
-  background: 
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0),
+  background:
     radial-gradient(circle at 50% 50%, rgba(124, 106, 255, 0.03) 0%, transparent 60%),
     var(--bg-primary);
-  background-size: 30px 30px, 100% 100%, 100% 100%;
 }
 
 #designCanvas {

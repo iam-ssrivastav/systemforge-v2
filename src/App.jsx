@@ -51,6 +51,28 @@ function App() {
       setIsLoggedIn(!!user);
     });
 
+    // Bridge React State & Logic to window for the original systemforge-engine (app.js)
+    window.setActiveViewInReact = (view) => setActiveView(view);
+    window.setActiveProblemInReact = (p) => setActiveProblem(p);
+    window.firebase = firebase; // Give engine access to our Firebase
+    
+    // Mock showPage for app.js to use React routing
+    window.showPage = (view) => {
+      console.log('[SystemForge Engine] showPage request:', view);
+      setActiveView(view);
+    };
+
+    // Override the engine's startProblem if it exists, or provide a backup
+    const originalStartProblem = window.startProblem;
+    window.startProblem = (id) => {
+      if (typeof originalStartProblem === 'function') {
+        originalStartProblem(id);
+      } else {
+        // Fallback UI switch if engine hasn't loaded yet
+        setActiveView('workspace');
+      }
+    };
+    
     return () => unsubscribe();
   }, []);
 

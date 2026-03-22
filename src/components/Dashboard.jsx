@@ -142,6 +142,13 @@ const PROBLEMS = [
 ];
 
 export default function Dashboard({ onStart, isPro }) {
+  // Navigate directly to the original working playground page.
+  // This page is a 1:1 copy of the reference site and handles everything:
+  // Expert View, Simulation, Drag-and-Drop, Auth, Paywall — all natively in JS.
+  const goToPlayground = (p) => {
+    window.location.href = `/playground.html?problemId=${p.id}`;
+  };
+
   const [activeFilter, setActiveFilter] = useState('all');
   
   const filteredProblems = activeFilter === 'all' 
@@ -197,7 +204,7 @@ export default function Dashboard({ onStart, isPro }) {
               className="problem-card fade-in" 
               style={{ animationDelay: `${i * 0.05}s` }}
               onClick={(e) => { 
-                if (e.target.tagName !== 'BUTTON') onStart(p); 
+                if (e.target.tagName !== 'BUTTON') goToPlayground(p); 
               }}
             >
               <div className="problem-card-header">
@@ -215,7 +222,7 @@ export default function Dashboard({ onStart, isPro }) {
                 </div>
                 <button 
                   className="start-btn" 
-                  onClick={(e) => { e.stopPropagation(); onStart(p); }}
+                  onClick={(e) => { e.stopPropagation(); goToPlayground(p); }}
                 >
                   {btnText}
                 </button>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SystemForge — System Design Practice Platform</title>
+  <meta name="description" content="Practice system design with interactive drag-and-drop architecture builder and real-time simulation. Master system design interviews." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.png" />
+  <!-- Content Security Policy: only allow scripts from trusted CDNs + self -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: blob:;
+    connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://www.googleapis.com;
+    frame-ancestors 'none';
+  " />
+  <!-- Security Shield — runs FIRST before any other script -->
+  <script src="security-shield.js"></script>
+</head>
+<body>
+  <div id="systemAdvisor" class="system-advisor" style="display:none;">
+    <div class="advisor-header">
+      <span class="advisor-icon">🤖</span>
+      <span class="advisor-title">System Advisor</span>
+      <button class="advisor-close" onclick="hideAdvisor()">×</button>
+    </div>
+    <div id="advisorBody" class="advisor-body">
+      System is looking good!
+    </div>
+  </div>
+  <nav class="nav" id="mainNav" style="display:none;">
+    <div class="nav-brand" style="cursor:default;">
+      <div class="nav-logo" style="display:flex;align-items:center;justify-content:center; overflow:hidden;">
+        <img src="logo.png" alt="SystemForge Logo" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <span class="nav-title">SystemForge</span>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="mailto:sysforgetool@gmail.com" class="nav-link" style="text-decoration:none;">Contact Us</a>
+      <button class="nav-link active" data-page="dashboard" onclick="showPage('dashboard')">Dashboard</button>
+      <button class="nav-link" id="loginBtnNav" onclick="showPage('auth')">Login / Sign Up</button>
+      <button class="nav-link" id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Container for Pages -->
+  <div class="app-container">
+  
+    <!-- ===== AUTHENTICATION PAGE ===== -->
+    <div class="page" id="page-auth">
+      <!-- Floating System Design Icons Background -->
+      <div id="floatingIcons" style="position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0;"></div>
+
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 80vh; width: 100%; position: relative; z-index: 1;">
+        <div class="glass-panel" style="width: 100%; max-width: 400px; padding: 40px; border-radius: 16px; text-align: center;">
+          <h1 style="margin-bottom: 8px; font-size: 28px; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; background-clip: text; color: transparent;">Welcome to SystemForge</h1>
+          <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 14px;">Master system design with interactive simulations.</p>
+          
+          <div id="authTabs" style="display: flex; gap: 10px; margin-bottom: 25px;">
+            <button class="ws-action-btn active" style="flex:1; justify-content:center;" onclick="toggleAuthMode('login')" id="tabLogin">Login</button>
+            <button class="ws-action-btn" style="flex:1; justify-content:center; opacity:0.6;" onclick="toggleAuthMode('signup')" id="tabSignup">Sign Up</button>
+          </div>
+
+          <form id="authForm" onsubmit="handleAuth(event)" style="display: flex; flex-direction: column; gap: 15px;">
+            <input type="text" id="authName" placeholder="Full Name" style="display:none; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 15px; outline: none;">
+            <input type="email" id="authEmail" placeholder="Email address" required style="padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 15px; outline: none;">
+            <input type="password" id="authPassword" placeholder="Password" required style="padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 15px; outline: none;">
+            
+            <button type="submit" class="primary" id="authSubmitBtn" style="padding: 14px; border-radius: 8px; background: var(--primary); color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; transition: 0.2s;">
+              Log In
+            </button>
+          </form>
+
+          <p id="authErrorMsg" style="color: #ff5577; font-size: 13px; margin-top: 15px; min-height: 20px;"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <div class="page active" id="page-dashboard">
+      <div class="hero">
+        <div class="hero-badge">⚡ Interactive System Design Practice</div>
+        <h1>Master <span class="gradient-text">System Design</span><br/>With Real Simulation</h1>
+        <p>Build architectures with drag & drop, connect components, and watch your system handle real traffic in a live simulation. Download FAANG & top product-based MNC interview-ready PDFs with complete solutions, Q&A flashcards, and trade-off deep dives.</p>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-value">12+</div>
+            <div class="stat-label">Design Problems</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">15+</div>
+            <div class="stat-label">Components</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Simulations</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="easy">Easy</button>
+        <button class="filter-btn" data-filter="medium">Medium</button>
+        <button class="filter-btn" data-filter="hard">Hard</button>
+        <button class="filter-btn" data-filter="url-shortener">URL Shortener</button>
+        <button class="filter-btn" data-filter="messaging">Messaging</button>
+        <button class="filter-btn" data-filter="storage">Storage</button>
+        <button class="filter-btn" data-filter="streaming">Streaming</button>
+      </div>
+
+      <div class="problems-grid" id="problemsGrid">
+        <!-- Populated by JS -->
+      </div>
+      
+      <!-- COMING SOON CTA -->
+      <div style="margin: 40px auto; max-width: 800px; padding: 24px 32px; background: linear-gradient(145deg, rgba(124, 106, 255, 0.1), rgba(0, 212, 170, 0.05)); border: 1px solid rgba(124, 106, 255, 0.2); border-radius: 16px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
+        <h3 style="color: var(--text-primary); margin-bottom: 12px; font-size: 20px;">🚀 Coming Soon: More Reality-Tested Architectures</h3>
+        <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
+          We are actively engineering 80+ ultra-realistic system designs from tier-1 tech companies, including <strong>Google Maps (Geospatial routing), Spotify (Audio caching), and Tinder (Matching engines)</strong>.
+        </p>
+        <div style="display:inline-block; padding: 15px 24px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,215,0,0.3); margin-bottom: 25px;">
+          <div style="margin-bottom: 12px;">
+            <span style="color: #ffd700; font-weight: bold; font-size: 16px;">🔒 Early Bird Pricing:</span> 
+            <span style="color: var(--text-muted); font-size: 15px; margin-left: 5px;">Unlock Lifetime Pro Access today for just <strong>$10 or ₹799</strong> before the full launch!</span>
+          </div>
+          <button onclick="window.open('https://rzp.io/rzp/aVExvTId', '_blank')" style="background: linear-gradient(90deg, #3399cc, #2b82ad); color: white; border: none; padding: 12px 28px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(51, 153, 204, 0.3);" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(51, 153, 204, 0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(51, 153, 204, 0.3)';">
+            Secure Checkout with Razorpay ⚡
+          </button>
+        </div>
+        
+        <div style="text-align: left; background: rgba(17, 17, 40, 0.6); padding: 24px; border-radius: 12px; border: 1px solid var(--border-subtle);">
+          <h4 style="color: var(--text-primary); margin-bottom: 15px; font-size: 16px;">What you get today (Immediate Access):</h4>
+          <ul style="color: var(--text-secondary); font-size: 14px; line-height: 1.8; padding-left: 20px; margin: 0; list-style-type: none;">
+            <li style="margin-bottom: 8px;">✅ <strong>12+ Premium FAANG Scenarios:</strong> Unlock Netflix, Uber, Amazon, and BookMyShow architectures.</li>
+            <li style="margin-bottom: 8px;">✅ <strong>Verified Solution Snapshots:</strong> Instant access to the "Load Example" master blueprints.</li>
+            <li style="margin-bottom: 8px;">✅ <strong>FAANG Interview Materials (PDF):</strong> Unlimited downloads of top product-based MNC System Design interview solutions, Q&A flashcards, and trade-off guides in rich PDF format.</li>
+            <li style="margin-bottom: 8px;">✅ <strong>Advanced Components:</strong> Unrestrict usage of Kafka message queues, ElasticSearch, and Redis instances.</li>
+            <li>✅ <strong>Deep Stress Testing:</strong> Unlock Auto-Scaler thresholds and advanced network isolation failures.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="text-align:center; padding: 60px 0 20px 0; font-size: 14px; color: var(--text-muted); opacity: 0.6;">
+         <a href="mailto:sysforgetool@gmail.com" style="color:var(--text-secondary); text-decoration:none; margin-right: 15px;">Contact Us</a>
+         <a href="https://www.youtube.com/@JavaBackendHub/playlists" target="_blank" rel="noopener" style="color:var(--text-secondary); text-decoration:none; margin-right: 15px;"><svg style="vertical-align:middle; margin-right:4px;" width="18" height="13" viewBox="0 0 24 17" fill="none"><rect width="24" height="17" rx="4" fill="#FF0000"/><polygon points="10,3.5 10,13.5 17,8.5" fill="#fff"/></svg>YouTube Tutorials</a>
+         <br style="margin-bottom:8px;">
+         &copy; 2026 SystemForge. All rights reserved.
+      </div>
+    </div>
+
+    <!-- ===== WORKSPACE PAGE ===== -->
+    <div class="page" id="page-workspace">
+      <div class="workspace">
+        <!-- Workspace Header -->
+        <div class="workspace-header">
+          <div class="workspace-problem-info">
+            <button class="back-btn" onclick="showPage('dashboard')">← Back</button>
+            <h2 id="ws-problem-title">Select a Problem</h2>
+            <span class="difficulty-badge" id="ws-difficulty"></span>
+          </div>
+          <div class="workspace-actions">
+            <button class="ws-action-btn" onclick="saveDesign()" title="Save your current progress so you don't lose it on logout">💾 Save</button>
+            <button class="ws-action-btn" id="loadSavedBtn" onclick="loadSavedDesign()" title="Restore your last saved progress for this problem" style="display:none; color: #7c6aff; border-color: rgba(124, 106, 255, 0.3);">📥 Load Save</button>
+            <div class="toolbar-divider" style="height:24px;width:1px;background:rgba(255,255,255,0.1);margin:0 4px;"></div>
+            <button class="ws-action-btn" onclick="clearCanvas()" title="Clear all components">🗑️ Clear</button>
+            <button class="ws-action-btn" onclick="resetSimulation()" title="Reset simulation">🔄 Reset</button>
+            <button class="ws-action-btn" onclick="loadExample()" title="Load pre-built example architecture" style="border-color:rgba(0,212,170,0.3);color:var(--accent-secondary);">📦 Expert View</button>
+            <button class="ws-action-btn primary" onclick="evaluateDesign()" title="Check your design">✅ Evaluate</button>
+          </div>
+        </div>
+
+        <!-- Left Panel: Component Palette -->
+        <div class="palette-panel" id="palettePanel">
+          <div class="palette-section">
+            <div class="palette-section-title">🌐 Networking</div>
+            <div class="palette-item" draggable="true" data-comp="client">
+              <div class="palette-icon" style="background:rgba(0,187,255,0.15);color:var(--comp-client)">👤</div>
+              <div class="palette-item-info"><h4>Client</h4><p>User / Browser</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="dns">
+              <div class="palette-icon" style="background:rgba(102,187,255,0.15);color:var(--comp-dns)">🌍</div>
+              <div class="palette-item-info"><h4>DNS</h4><p>Domain resolution</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="cdn">
+              <div class="palette-icon" style="background:rgba(68,221,255,0.15);color:var(--comp-cdn)">🌐</div>
+              <div class="palette-item-info"><h4>CDN</h4><p>Content delivery</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="load-balancer">
+              <div class="palette-icon" style="background:rgba(124,106,255,0.15);color:var(--comp-lb)">⚖️</div>
+              <div class="palette-item-info"><h4>Load Balancer</h4><p>Distribute traffic</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="api-gateway">
+              <div class="palette-icon" style="background:rgba(170,119,255,0.15);color:var(--comp-gateway)">🚪</div>
+              <div class="palette-item-info"><h4>API Gateway</h4><p>Rate limiting, auth</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="waf">
+              <div class="palette-icon" style="background:rgba(255,85,119,0.15);color:#ff5577">🛡️</div>
+              <div class="palette-item-info"><h4>WAF</h4><p>Web App Firewall</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="rate-limiter">
+              <div class="palette-icon" style="background:rgba(170,119,255,0.15);color:#aa77ff">⏱️</div>
+              <div class="palette-item-info"><h4>Rate Limiter</h4><p>Traffic throttling</p></div>
+            </div>
+          </div>
+
+          <div class="palette-section">
+            <div class="palette-section-title">⚙️ Compute & Observability</div>
+            <div class="palette-item" draggable="true" data-comp="web-server">
+              <div class="palette-icon" style="background:rgba(0,212,170,0.15);color:var(--comp-server)">🖥️</div>
+              <div class="palette-item-info"><h4>Web Server</h4><p>HTTP handler</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="app-server">
+              <div class="palette-icon" style="background:rgba(0,212,170,0.15);color:var(--comp-server)">⚙️</div>
+              <div class="palette-item-info"><h4>App Server</h4><p>Business logic</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="microservice">
+              <div class="palette-icon" style="background:rgba(85,221,170,0.15);color:var(--comp-microservice)">🔧</div>
+              <div class="palette-item-info"><h4>Microservice</h4><p>Isolated service</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="stream-processing">
+              <div class="palette-icon" style="background:rgba(0,187,255,0.15);color:#00bbff">🌊</div>
+              <div class="palette-item-info"><h4>Stream Processing</h4><p>Spark, Flink Streams</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="zookeeper">
+              <div class="palette-icon" style="background:rgba(124,106,255,0.15);color:#7c6aff">🗺️</div>
+              <div class="palette-item-info"><h4>Service Registry</h4><p>Zookeeper, Etcd</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="logger">
+              <div class="palette-icon" style="background:rgba(255,255,255,0.15);color:#ffffff">📟</div>
+              <div class="palette-item-info"><h4>Data Logger</h4><p>Live Console Sniffer</p></div>
+            </div>
+          </div>
+
+          <div class="palette-section">
+            <div class="palette-section-title">💾 Data</div>
+            <div class="palette-item" draggable="true" data-comp="sql-db">
+              <div class="palette-icon" style="background:rgba(255,170,0,0.15);color:var(--comp-database)">🗄️</div>
+              <div class="palette-item-info"><h4>SQL Database</h4><p>MySQL, PostgreSQL</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="nosql-db">
+              <div class="palette-icon" style="background:rgba(255,170,0,0.15);color:var(--comp-database)">📦</div>
+              <div class="palette-item-info"><h4>NoSQL Database</h4><p>MongoDB, DynamoDB</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="cache">
+              <div class="palette-icon" style="background:rgba(255,107,157,0.15);color:var(--comp-cache)">⚡</div>
+              <div class="palette-item-info"><h4>Cache</h4><p>Redis, Memcached</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="object-storage">
+              <div class="palette-icon" style="background:rgba(136,204,68,0.15);color:var(--comp-storage)">📁</div>
+              <div class="palette-item-info"><h4>Object Storage</h4><p>S3, Blob storage</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="search">
+              <div class="palette-icon" style="background:rgba(255,85,119,0.15);color:var(--comp-search)">🔍</div>
+              <div class="palette-item-info"><h4>Search Engine</h4><p>Elasticsearch</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="data-warehouse">
+              <div class="palette-icon" style="background:rgba(255,170,0,0.15);color:#ffaa00">🏬</div>
+              <div class="palette-item-info"><h4>Data Warehouse</h4><p>Snowflake, Redshift</p></div>
+            </div>
+          </div>
+
+          <div class="palette-section">
+            <div class="palette-section-title">📨 Messaging</div>
+            <div class="palette-item" draggable="true" data-comp="message-queue">
+              <div class="palette-icon" style="background:rgba(255,136,68,0.15);color:var(--comp-queue)">📬</div>
+              <div class="palette-item-info"><h4>Message Queue</h4><p>Kafka, RabbitMQ</p></div>
+            </div>
+            <div class="palette-item" draggable="true" data-comp="notification">
+              <div class="palette-icon" style="background:rgba(255,136,68,0.15);color:var(--comp-queue)">🔔</div>
+              <div class="palette-item-info"><h4>Notification Svc</h4><p>Push, Email, SMS</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Canvas -->
+        <div class="canvas-container" id="canvasContainer">
+          <button class="panel-collapse-btn toggle-left" onclick="toggleLeftPanel()" title="Toggle Component Palette">
+            <span id="leftToggleIcon">◀</span>
+          </button>
+          
+          <button class="panel-collapse-btn toggle-right" onclick="toggleRightPanel()" title="Toggle Features Panel">
+            <span id="rightToggleIcon">▶</span>
+          </button>
+
+          <canvas id="designCanvas"></canvas>
+          <div class="canvas-overlay-info" id="canvasOverlay">
+            <div class="icon">🏗️</div>
+            <h3>Drag components here</h3>
+            <p>Build your system architecture by dragging components from the left panel</p>
+          </div>
+
+          <!-- Canvas Toolbar -->
+          <div class="canvas-toolbar">
+            <button class="toolbar-btn active" id="tool-select" onclick="setTool('select')" title="Select & Move">🖱️</button>
+            <button class="toolbar-btn" id="tool-connect" onclick="setTool('connect')" title="Draw Connection">🔗</button>
+            <div class="toolbar-divider"></div>
+            <button class="toolbar-btn" onclick="zoomIn()" title="Zoom In">🔍+</button>
+            <button class="toolbar-btn" onclick="zoomOut()" title="Zoom Out">🔍−</button>
+            <button class="toolbar-btn" onclick="zoomReset()" title="Fit View">📐</button>
+            <div class="toolbar-divider"></div>
+            <button class="toolbar-btn" id="tool-delete" onclick="setTool('delete')" title="Delete Mode">❌</button>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+          <div class="panel-tab-bar">
+            <button class="panel-tab active" data-panel="simulation" onclick="switchPanel('simulation')">Simulation</button>
+            <button class="panel-tab" data-panel="requirements" onclick="switchPanel('requirements')">Requirements</button>
+            <button class="panel-tab" data-panel="properties" onclick="switchPanel('properties')">Properties</button>
+            <button class="panel-tab" data-panel="notes" onclick="switchPanel('notes')">Notes</button>
+          </div>
+
+          <div class="panel-content">
+            <!-- Simulation Panel -->
+            <div class="panel-section active" id="panel-simulation">
+              <div class="sim-controls">
+                <div class="sim-btn-row">
+                  <button class="sim-btn play" id="simPlayBtn" onclick="toggleSimulation()">
+                    ▶ Play
+                  </button>
+                  <button class="sim-btn stop" onclick="stopSimulation()">
+                    ⏹ Stop
+                  </button>
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label">
+                    <span>Request Rate</span>
+                    <span class="slider-value" id="rateValue">100 req/s</span>
+                  </div>
+                  <input type="range" id="rateSlider" min="10" max="10000" value="100" step="10" oninput="updateRate(this.value)" />
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-label">
+                    <span>Simulation Speed</span>
+                    <span class="slider-value" id="speedValue">1x</span>
+                  </div>
+                  <input type="range" id="speedSlider" min="0.5" max="5" value="1" step="0.5" oninput="updateSpeed(this.value)" />
+                </div>
+
+                <div style="margin-top:8px;">
+                  <button class="ws-action-btn primary" onclick="startTraceFlow()" id="traceBtn" title="Follow the request path step-by-step" style="width:100%;justify-content:center;margin-bottom:8px;">
+                    🔍 Trace Logic Path
+                  </button>
+                  <button class="ws-action-btn danger" onclick="injectFailure()" title="Click any active component on the canvas to simulate a crash/failure" style="width:100%;justify-content:center;margin-bottom:8px;">
+                    💥 Inject Node Failure
+                  </button>
+                  <button class="ws-action-btn warning" onclick="stressTest()" title="Trigger a massive 10x traffic spike to stress test your architecture" style="width:100%;justify-content:center;background:rgba(255,170,0,0.1);border-color:rgba(255,170,0,0.4);color:#ffaa00;margin-bottom:8px;">
+                    🔥 10x Traffic Spike
+                  </button>
+                  <button class="ws-action-btn" onclick="showSystemAdvisor()" style="width:100%;justify-content:center;background:rgba(0,187,255,0.1);color:#00bbff;border-color:rgba(0,187,255,0.4);">
+                    🤖 Ask System Advisor
+                  </button>
+                </div>
+                
+                <div id="traceTooltip" class="trace-tooltip" style="display:none; position:absolute; z-index:1000;">
+                   <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                      <span id="traceTitle" style="font-weight:bold; color:var(--primary);">Step 1: Client</span>
+                      <button onclick="nextTraceStep()" style="background:var(--primary);color:#fff;border:none;border-radius:4px;padding:2px 8px;cursor:pointer;">Next ⏭</button>
+                   </div>
+                   <div id="traceBody" style="font-size:13px; color:var(--text-light); line-height:1.4;">
+                      POST /create...
+                   </div>
+                </div>
+
+                <div class="metrics-grid">
+                  <div class="metric-card">
+                    <div class="metric-label">Throughput</div>
+                    <div class="metric-value good" id="metricThroughput">0</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-label">Latency (ms)</div>
+                    <div class="metric-value good" id="metricLatency">0</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-label">Error Rate</div>
+                    <div class="metric-value good" id="metricErrors">0%</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-label">Monthly Cost</div>
+                    <div class="metric-value" id="metricCost" style="color:#00d4aa;">$0</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="palette-section-title" style="padding:16px 16px 8px;">📋 Simulation Log</div>
+              <div class="sim-log" id="simLog">
+                <div class="log-entry info"><span class="timestamp">[00:00]</span>Simulation engine ready.</div>
+              </div>
+            </div>
+
+            <!-- Requirements Panel -->
+            <div class="panel-section" id="panel-requirements">
+              <div class="problem-desc-panel" id="problemDescription">
+                <h3>Problem Description</h3>
+                <p>Select a problem from the dashboard to see requirements here.</p>
+              </div>
+              <div id="requirementsList">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Properties Panel -->
+            <div class="panel-section" id="panel-properties">
+              <div class="problem-desc-panel">
+                <p id="propsPlaceholder">Click a component on the canvas to view and configure its properties.</p>
+                <div id="propsContent" style="display:none;">
+                  <!-- Header -->
+                  <div id="propHeader" style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle);">
+                    <div id="propIcon" style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;"></div>
+                    <div>
+                      <input class="prop-input" id="propName" oninput="updateComponentName(this.value)" style="font-weight:700;font-size:15px;padding:4px 8px;"/>
+                      <div id="propType" style="font-size:11px;color:var(--text-muted);margin-top:2px;padding-left:8px;">—</div>
+                    </div>
+                  </div>
+                  <!-- Status Row -->
+                  <div style="display:flex;gap:8px;margin-bottom:12px;">
+                    <div style="flex:1;padding:8px;border-radius:8px;background:var(--bg-glass);border:1px solid var(--border-subtle);text-align:center;">
+                      <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Status</div>
+                      <div id="propStatus" style="font-size:13px;font-weight:600;margin-top:2px;">🟢 Healthy</div>
+                    </div>
+                    <div style="flex:1;padding:8px;border-radius:8px;background:var(--bg-glass);border:1px solid var(--border-subtle);text-align:center;">
+                      <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Load</div>
+                      <div id="propLoadText" style="font-size:13px;font-weight:600;margin-top:2px;">0%</div>
+                    </div>
+                    <div style="flex:1;padding:8px;border-radius:8px;background:var(--bg-glass);border:1px solid var(--border-subtle);text-align:center;">
+                      <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Latency</div>
+                      <div id="propLatency" style="font-size:13px;font-weight:600;margin-top:2px;">— ms</div>
+                    </div>
+                  </div>
+                  <div class="health-bar" style="margin-bottom:16px;">
+                    <div class="health-bar-fill" id="propLoadBar" style="width:0%; background: var(--accent-secondary);"></div>
+                  </div>
+                  <!-- Dynamic Config Section (JS-generated) -->
+                  <div id="propConfigSection"></div>
+                  <!-- Actions -->
+                  <div style="display:flex;gap:8px;margin-top:16px;">
+                    <button class="ws-action-btn danger" onclick="deleteSelected()" style="flex:1;justify-content:center;font-size:12px;">🗑️ Delete</button>
+                    <button class="ws-action-btn" onclick="toggleComponentHealth()" style="flex:1;justify-content:center;font-size:12px;" id="healthToggleBtn">💥 Kill</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes Panel -->
+            <div class="panel-section" id="panel-notes">
+              <div class="problem-desc-panel" id="notesContent">
+                 <h3>System Design Masterclass</h3>
+                 <p style="margin-bottom: 20px;">Select a problem from the Dashboard to unlock the curated interview notes, Q&A blocks, and complete architectural breakdowns.</p>
+              </div>
+              <div id="pdfDownloadWrapper" style="padding: 0 16px 16px;">
+                 <button class="start-btn" style="width:100%; border-radius: 8px; font-weight: 800; cursor: pointer; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="downloadMasterclassPDF()">
+                    📥 Download Interview PDF
+                 </button>
+                 <p style="text-align:center; font-size: 10px; color: var(--text-muted); margin-top: 8px;">Included with your $10 Early Bird PRO access!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <div class="status-left">
+            <div class="status-indicator">
+              <div class="status-dot" id="statusDot"></div>
+              <span id="statusText">Ready</span>
+            </div>
+            <span id="componentCount">0 components · 0 connections</span>
+          </div>
+          <div class="status-right">
+            <span id="zoomLevel">100%</span>
+            <span id="canvasCoords">0, 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu" id="contextMenu">
+      <div class="context-menu-item" onclick="duplicateComponent()">📋 Duplicate</div>
+      <div class="context-menu-item" onclick="connectFromContext()">🔗 Connect To...</div>
+      <div class="context-menu-divider"></div>
+      <div class="context-menu-item" onclick="toggleComponentHealth()">💥 Toggle Health</div>
+      <div class="context-menu-divider"></div>
+      <div class="context-menu-item danger" onclick="deleteFromContext()">🗑️ Delete</div>
+    </div>
+
+    <!-- Evaluation Modal -->
+    <div class="modal-overlay" id="evalModal">
+      <div class="modal">
+        <h2>🏆 Design Evaluation</h2>
+        <div class="score-display">
+          <div class="score-circle" id="scoreCircle">0</div>
+          <div class="score-label" id="scoreLabel">Evaluating...</div>
+        </div>
+        <div id="evalFeedback"></div>
+        <div class="modal-actions">
+          <button class="ws-action-btn" onclick="closeModal()">Close</button>
+          <button class="ws-action-btn primary" onclick="closeModal()">Continue Designing</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Paywall Modal (Replaces browser confirm) -->
+    <div class="modal-overlay" id="paywallModal" style="display:none; z-index: 10000; align-items:center; justify-content:center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);">
+      <div class="modal" style="background: var(--bg-surface); padding: 32px; border-radius: 16px; border: 1px solid rgba(255,215,0,0.3); max-width: 420px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
+        <div style="font-size: 50px; margin-bottom: 20px; color: #ffd700;">🔒</div>
+        <h2 id="paywallDynamicTitle" style="color: var(--text-primary); margin-bottom: 12px; font-size: 20px; line-height: 1.4;">Upgrade to <span style="color: #ffd700;">SystemForge PRO</span></h2>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; font-size: 15px;">Unlock the complete <strong>FAANG System Design Suite</strong> including interactive simulations, unmetered network stress tests, and 10+ downloadable masterclass PDFs.</p>
+        <div style="background: rgba(0,0,0,0.5); border-radius: 8px; padding: 12px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.05);">
+           <span style="display:block; color: var(--text-muted); font-size: 13px; text-decoration: line-through;">Regular Price: $49/mo</span>
+           <span style="display:block; color: #00d4aa; font-weight: bold; font-size: 18px; margin-top: 4px;">Lifetime Access: ₹799 ($10)</span>
+        </div>
+        <div style="display:flex; gap: 12px; justify-content: space-between;">
+           <button class="ws-action-btn" onclick="document.getElementById('paywallModal').style.display='none'" style="flex: 1; padding: 12px; justify-content: center;">Cancel</button>
+           <button class="ws-action-btn primary" onclick="window.open('https://rzp.io/rzp/aVExvTId', '_blank'); document.getElementById('paywallModal').style.display='none'" style="flex: 2; padding: 12px; justify-content: center; font-weight: bold; background: linear-gradient(90deg, #3399cc, #2b82ad); border: none;">Go to Razorpay ⚡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Drag ghost -->
+    <div class="drag-ghost" id="dragGhost" style="display:none;"></div>
+  </div>
+
+  <!-- FIREBASE PLATFORM SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
+
+  <!-- jsPDF EXTERNAL SDK (Client-side PDF compilation) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script src="app.js"></script>
+  <script>
+    // Auto-start the problem from URL param (e.g., /playground.html?problemId=1)
+    // This is called AFTER app.js is fully loaded so startProblem() exists.
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const pid = parseInt(params.get('problemId'));
+      if (pid && !isNaN(pid)) {
+        // Wait for Firebase auth to initialize before calling startProblem
+        // so the auth-check inside startProblem() works correctly.
+        const tryStart = () => {
+          if (typeof startProblem === 'function' && typeof firebase !== 'undefined') {
+            // For problem 1 (free), start immediately.
+            // For others, startProblem handles the auth/paywall check itself.
+            startProblem(pid);
+          } else {
+            setTimeout(tryStart, 100);
+          }
+        };
+        // Give DOMContentLoaded a moment to fire first
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => setTimeout(tryStart, 200));
+        } else {
+          setTimeout(tryStart, 200);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
