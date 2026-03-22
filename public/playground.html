@@ -5,20 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SystemForge — System Design Practice Platform</title>
   <meta name="description" content="Practice system design with interactive drag-and-drop architecture builder and real-time simulation. Master system design interviews." />
-  <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="logo.png" />
   
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src 'self' https://fonts.gstatic.com;
-    img-src 'self' data: blob:;
-    connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://www.googleapis.com;
-    frame-ancestors 'none';
-  " />
-  
+  <!-- Security Shield — runs FIRST before any other script -->
   <script src="security-shield.js"></script>
+
+  <!-- Core SystemForge Platform Network/Auth Dependencies -->
+  <script src="sysforge-core-sdk.js"></script>
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div id="systemAdvisor" class="system-advisor" style="display:none;">
@@ -530,13 +526,6 @@
     
     <div class="drag-ghost" id="dragGhost" style="display:none;"></div>
   </div>
-
-  
-  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script src="app.js"></script>
 </body>
