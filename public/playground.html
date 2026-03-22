@@ -539,32 +539,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script src="app.js"></script>
-  <script>
-    // Auto-start the problem from URL param (e.g., /playground.html?problemId=1)
-    // This is called AFTER app.js is fully loaded so startProblem() exists.
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const pid = parseInt(params.get('problemId'));
-      if (pid && !isNaN(pid)) {
-        // Wait for Firebase auth to initialize before calling startProblem
-        // so the auth-check inside startProblem() works correctly.
-        const tryStart = () => {
-          if (typeof startProblem === 'function' && typeof firebase !== 'undefined') {
-            // For problem 1 (free), start immediately.
-            // For others, startProblem handles the auth/paywall check itself.
-            startProblem(pid);
-          } else {
-            setTimeout(tryStart, 100);
-          }
-        };
-        // Give DOMContentLoaded a moment to fire first
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', () => setTimeout(tryStart, 200));
-        } else {
-          setTimeout(tryStart, 200);
-        }
-      }
-    })();
-  </script>
 </body>
 </html>
