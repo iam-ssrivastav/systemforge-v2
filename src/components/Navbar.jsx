@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 export default function Navbar({ isLoggedIn, setActiveView, activeView }) {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleLogout = () => {
-    // Call Firebase Auth from window if available, or just clear standard auth state
-    if (window.firebase) {
-      window.firebase.auth().signOut().then(() => {
-        window.location.reload();
-      });
-    } else {
+    firebase.auth().signOut().then(() => {
       window.location.reload();
-    }
+    }).catch((err) => {
+      console.error(err);
+      window.location.reload();
+    });
   };
 
   return (
