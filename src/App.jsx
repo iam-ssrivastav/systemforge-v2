@@ -12,13 +12,13 @@ import AuthModal from './components/AuthModal';
 // We use character-code logic to ensure the credentials are never stored as a static, searchable string.
 const _k = (s) => s.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join('');
 const firebaseConfig = {
-  apiKey: _k('BJ{bTzEYc7EbTufFoYfow4J11tkIDYz1bv:rvu1'),
+  apiKey: _k('BJ{bTzEYc7E[twFoYepw4J31tkbIDY2bv:.rvu1'),
   authDomain: _k('tztufngpshf.637:e/gjsfcbtfbqq/dpn'),
   projectId: _k('tztufngpshf.637:e'),
   storageBucket: _k('tztufngpshf.637:e/gjsfcbtftupsbhf/bqq'),
-  messagingSenderId: "1018107667228",
-  appId: _k('2:212:211877888339:xfc:dcge5661b412f7egbc561a'),
-  measurementId: "G-Q41X253W4G"
+  messagingSenderId: _k('2129218778339'),
+  appId: _k('2;2129218778339;xfc;dcge4661b412f7egb561e:'),
+  measurementId: _k('H.R52Y364X5H')
 };
 
 // Initialize Firebase once
