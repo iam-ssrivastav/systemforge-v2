@@ -7,7 +7,7 @@
   <meta name="description" content="Practice system design with interactive drag-and-drop architecture builder and real-time simulation. Master system design interviews." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="logo.png" />
-  <!-- Content Security Policy: only allow scripts from trusted CDNs + self -->
+  
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com;
@@ -17,7 +17,7 @@
     connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://www.googleapis.com;
     frame-ancestors 'none';
   " />
-  <!-- Security Shield — runs FIRST before any other script -->
+  
   <script src="security-shield.js"></script>
 </head>
 <body>
@@ -46,12 +46,12 @@
     </div>
   </nav>
 
-  <!-- Container for Pages -->
+  
   <div class="app-container">
   
-    <!-- ===== AUTHENTICATION PAGE ===== -->
+    
     <div class="page" id="page-auth">
-      <!-- Floating System Design Icons Background -->
+      
       <div id="floatingIcons" style="position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0;"></div>
 
       <div style="display: flex; justify-content: center; align-items: center; min-height: 80vh; width: 100%; position: relative; z-index: 1;">
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <!-- ===== DASHBOARD PAGE ===== -->
+    
     <div class="page active" id="page-dashboard">
       <div class="hero">
         <div class="hero-badge">⚡ Interactive System Design Practice</div>
@@ -113,10 +113,10 @@
       </div>
 
       <div class="problems-grid" id="problemsGrid">
-        <!-- Populated by JS -->
+        
       </div>
       
-      <!-- COMING SOON CTA -->
+      
       <div style="margin: 40px auto; max-width: 800px; padding: 24px 32px; background: linear-gradient(145deg, rgba(124, 106, 255, 0.1), rgba(0, 212, 170, 0.05)); border: 1px solid rgba(124, 106, 255, 0.2); border-radius: 16px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
         <h3 style="color: var(--text-primary); margin-bottom: 12px; font-size: 20px;">🚀 Coming Soon: More Reality-Tested Architectures</h3>
         <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
@@ -152,10 +152,10 @@
       </div>
     </div>
 
-    <!-- ===== WORKSPACE PAGE ===== -->
+    
     <div class="page" id="page-workspace">
       <div class="workspace">
-        <!-- Workspace Header -->
+        
         <div class="workspace-header">
           <div class="workspace-problem-info">
             <button class="back-btn" onclick="showPage('dashboard')">← Back</button>
@@ -173,7 +173,7 @@
           </div>
         </div>
 
-        <!-- Left Panel: Component Palette -->
+        
         <div class="palette-panel" id="palettePanel">
           <div class="palette-section">
             <div class="palette-section-title">🌐 Networking</div>
@@ -276,7 +276,7 @@
           </div>
         </div>
 
-        <!-- Center: Canvas -->
+        
         <div class="canvas-container" id="canvasContainer">
           <button class="panel-collapse-btn toggle-left" onclick="toggleLeftPanel()" title="Toggle Component Palette">
             <span id="leftToggleIcon">◀</span>
@@ -293,7 +293,7 @@
             <p>Build your system architecture by dragging components from the left panel</p>
           </div>
 
-          <!-- Canvas Toolbar -->
+          
           <div class="canvas-toolbar">
             <button class="toolbar-btn active" id="tool-select" onclick="setTool('select')" title="Select & Move">🖱️</button>
             <button class="toolbar-btn" id="tool-connect" onclick="setTool('connect')" title="Draw Connection">🔗</button>
@@ -306,7 +306,7 @@
           </div>
         </div>
 
-        <!-- Right Panel -->
+        
         <div class="right-panel">
           <div class="panel-tab-bar">
             <button class="panel-tab active" data-panel="simulation" onclick="switchPanel('simulation')">Simulation</button>
@@ -316,7 +316,7 @@
           </div>
 
           <div class="panel-content">
-            <!-- Simulation Panel -->
+            
             <div class="panel-section active" id="panel-simulation">
               <div class="sim-controls">
                 <div class="sim-btn-row">
@@ -395,23 +395,23 @@
               </div>
             </div>
 
-            <!-- Requirements Panel -->
+            
             <div class="panel-section" id="panel-requirements">
               <div class="problem-desc-panel" id="problemDescription">
                 <h3>Problem Description</h3>
                 <p>Select a problem from the dashboard to see requirements here.</p>
               </div>
               <div id="requirementsList">
-                <!-- Populated by JS -->
+                
               </div>
             </div>
 
-            <!-- Properties Panel -->
+            
             <div class="panel-section" id="panel-properties">
               <div class="problem-desc-panel">
                 <p id="propsPlaceholder">Click a component on the canvas to view and configure its properties.</p>
                 <div id="propsContent" style="display:none;">
-                  <!-- Header -->
+                  
                   <div id="propHeader" style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle);">
                     <div id="propIcon" style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;"></div>
                     <div>
@@ -419,7 +419,7 @@
                       <div id="propType" style="font-size:11px;color:var(--text-muted);margin-top:2px;padding-left:8px;">—</div>
                     </div>
                   </div>
-                  <!-- Status Row -->
+                  
                   <div style="display:flex;gap:8px;margin-bottom:12px;">
                     <div style="flex:1;padding:8px;border-radius:8px;background:var(--bg-glass);border:1px solid var(--border-subtle);text-align:center;">
                       <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Status</div>
@@ -437,9 +437,9 @@
                   <div class="health-bar" style="margin-bottom:16px;">
                     <div class="health-bar-fill" id="propLoadBar" style="width:0%; background: var(--accent-secondary);"></div>
                   </div>
-                  <!-- Dynamic Config Section (JS-generated) -->
+                  
                   <div id="propConfigSection"></div>
-                  <!-- Actions -->
+                  
                   <div style="display:flex;gap:8px;margin-top:16px;">
                     <button class="ws-action-btn danger" onclick="deleteSelected()" style="flex:1;justify-content:center;font-size:12px;">🗑️ Delete</button>
                     <button class="ws-action-btn" onclick="toggleComponentHealth()" style="flex:1;justify-content:center;font-size:12px;" id="healthToggleBtn">💥 Kill</button>
@@ -448,7 +448,7 @@
               </div>
             </div>
 
-            <!-- Notes Panel -->
+            
             <div class="panel-section" id="panel-notes">
               <div class="problem-desc-panel" id="notesContent">
                  <h3>System Design Masterclass</h3>
@@ -464,7 +464,7 @@
           </div>
         </div>
 
-        <!-- Status Bar -->
+        
         <div class="status-bar">
           <div class="status-left">
             <div class="status-indicator">
@@ -481,7 +481,7 @@
       </div>
     </div>
 
-    <!-- Context Menu -->
+    
     <div class="context-menu" id="contextMenu">
       <div class="context-menu-item" onclick="duplicateComponent()">📋 Duplicate</div>
       <div class="context-menu-item" onclick="connectFromContext()">🔗 Connect To...</div>
@@ -491,7 +491,7 @@
       <div class="context-menu-item danger" onclick="deleteFromContext()">🗑️ Delete</div>
     </div>
 
-    <!-- Evaluation Modal -->
+    
     <div class="modal-overlay" id="evalModal">
       <div class="modal">
         <h2>🏆 Design Evaluation</h2>
@@ -507,7 +507,7 @@
       </div>
     </div>
     
-    <!-- Paywall Modal (Replaces browser confirm) -->
+    
     <div class="modal-overlay" id="paywallModal" style="display:none; z-index: 10000; align-items:center; justify-content:center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);">
       <div class="modal" style="background: var(--bg-surface); padding: 32px; border-radius: 16px; border: 1px solid rgba(255,215,0,0.3); max-width: 420px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
         <div style="font-size: 50px; margin-bottom: 20px; color: #ffd700;">🔒</div>
@@ -524,18 +524,18 @@
       </div>
     </div>
 
-    <!-- Tooltip -->
+    
     <div class="tooltip" id="tooltip"></div>
 
-    <!-- Drag ghost -->
+    
     <div class="drag-ghost" id="dragGhost" style="display:none;"></div>
   </div>
 
-  <!-- FIREBASE PLATFORM SDK -->
+  
   <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
 
-  <!-- jsPDF EXTERNAL SDK (Client-side PDF compilation) -->
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script src="app.js"></script>
