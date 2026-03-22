@@ -49,6 +49,11 @@ function App() {
     // 3. Firebase Auth listener
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       setIsLoggedIn(!!user);
+      if (user) {
+        localStorage.setItem('_sf_auth_active', '1');
+      } else {
+        localStorage.removeItem('_sf_auth_active');
+      }
     });
 
     // Bridge React State & Logic to window for the original systemforge-engine (app.js)
